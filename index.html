@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#111827">
+<title>AS Mega Mall</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:#f5f7fb;color:#172033}
+.top{background:linear-gradient(135deg,#111827,#374151);color:#fff;padding:22px 16px 18px;border-radius:0 0 24px 24px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:54px;height:54px;border-radius:16px;background:#fff;padding:4px;object-fit:contain}.brand h1{font-size:23px;margin:0}.brand p{font-size:12px;margin:4px 0 0;color:#d1d5db}
+.search{margin-top:18px;background:#fff;border-radius:14px;padding:12px 14px;color:#6b7280;display:flex;gap:8px}.search input{border:0;outline:0;width:100%;font-size:15px;background:transparent}
+.container{padding:16px}.title{display:flex;justify-content:space-between;align-items:center;margin:8px 0 12px}.title h2{font-size:18px;margin:0}.title span{font-size:12px;color:#6b7280}
+.cats{display:flex;gap:10px;overflow:auto;padding-bottom:4px}.cat{min-width:92px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 8px;text-align:center;font-size:12px}.cat b{display:block;font-size:23px;margin-bottom:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 4px 14px rgba(17,24,39,.05)}.pic{height:145px;display:flex;align-items:center;justify-content:center;font-size:54px;background:linear-gradient(135deg,#eef2ff,#fdf2f8)}.info{padding:11px}.name{font-size:14px;font-weight:700;line-height:1.3}.price{font-weight:800;margin-top:6px}.old{text-decoration:line-through;color:#9ca3af;font-size:11px;margin-left:5px}.add{margin-top:9px;width:100%;border:0;border-radius:10px;background:#111827;color:#fff;padding:9px;font-weight:700}
+.offer{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:18px;border-radius:18px;margin:16px 0}.offer b{font-size:20px}.offer p{margin:6px 0 0;font-size:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:5}.nav{font-size:11px;text-align:center;color:#6b7280}.nav strong{display:block;font-size:20px;color:#111827}.badge{display:inline-block;background:#ef4444;color:#fff;border-radius:20px;padding:1px 6px;font-size:9px;vertical-align:top}
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:10}.panel{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:22px 22px 0 0;padding:18px;max-height:82vh;overflow:auto}.panel h2{margin-top:0}.row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eee}.checkout{width:100%;padding:13px;border:0;border-radius:12px;background:#16a34a;color:#fff;font-weight:800;margin-top:14px}
+.contact{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:18px 0 90px}.contact a{color:#111827;font-weight:700;text-decoration:none}
+.empty{text-align:center;padding:28px;color:#6b7280}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <img class="logo" src="logo.png">
+    <div><h1>AS Mega Mall</h1><p>Online Shopping • Bangladesh</p></div>
+  </div>
+  <div class="search">🔎 <input id="search" placeholder="পণ্য খুঁজুন..." oninput="render()"></div>
+</header>
+
+<main class="container">
+  <div class="title"><h2>ক্যাটাগরি</h2><span>সব পণ্য</span></div>
+  <div class="cats">
+    <div class="cat" onclick="setCat('all')"><b>🛍️</b>সব</div>
+    <div class="cat" onclick="setCat('saree')"><b>🥻</b>শাড়ি</div>
+    <div class="cat" onclick="setCat('three')"><b>👗</b>থ্রি-পিস</div>
+    <div class="cat" onclick="setCat('punjabi')"><b>👔</b>পাঞ্জাবি</div>
+    <div class="cat" onclick="setCat('burqa')"><b>🧕</b>বোরকা</div>
+  </div>
+
+  <div class="offer"><b>🔥 বিশেষ অফার</b><p>AS Mega Mall থেকে পছন্দের পণ্য অর্ডার করুন। সারা বাংলাদেশে Home Delivery.</p></div>
+
+  <div class="title"><h2>জনপ্রিয় পণ্য</h2><span id="count"></span></div>
+  <section id="products" class="grid"></section>
+
+  <div class="contact">
+    <h3>📞 অর্ডার ও যোগাযোগ</h3>
+    <p>সারা বাংলাদেশে Home Delivery</p>
+    <p>📱 <a href="tel:01970861014">01970861014</a></p>
+    <p>💬 <a href="https://wa.me/8801970861014">WhatsApp Order</a></p>
+    <p>📧 <a href="mailto:mdebrahim390@gmail.com">mdebrahim390@gmail.com</a></p>
+    <p>📍 Dhaka, Bangladesh</p>
+  </div>
+</main>
+
+<div class="bottom">
+  <div class="nav" onclick="location.reload()"><strong>⌂</strong>Home</div>
+  <div class="nav" onclick="document.getElementById('search').focus()"><strong>⌕</strong>Search</div>
+  <div class="nav" onclick="openCart()"><strong>🛒<span class="badge" id="badge">0</span></strong>Cart</div>
+  <div class="nav" onclick="document.querySelector('.contact').scrollIntoView({behavior:'smooth'})"><strong>☎</strong>Contact</div>
+</div>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeCart()">
+  <div class="panel">
+    <h2>🛒 আপনার কার্ট</h2>
+    <div id="cart"></div>
+    <button class="checkout" onclick="orderWhatsApp()">WhatsApp-এ অর্ডার করুন</button>
+  </div>
+</div>
+
+<script>
+const products=[
+ {id:1,cat:'saree',name:'Premium Saree Collection',price:1290,emoji:'🥻'},
+ {id:2,cat:'three',name:'Stylish Three Piece',price:1490,emoji:'👗'},
+ {id:3,cat:'punjabi',name:'Premium Punjabi',price:1190,emoji:'👔'},
+ {id:4,cat:'burqa',name:'Dubai Style Burqa',price:1590,emoji:'🧕'},
+ {id:5,cat:'saree',name:'Elegant Cotton Saree',price:990,emoji:'🥻'},
+ {id:6,cat:'three',name:'New Design Three Piece',price:1690,emoji:'👗'}
+];
+let cat='all',cart=[];
+function setCat(c){cat=c;render()}
+function render(){
+ const q=document.getElementById('search').value.toLowerCase();
+ const list=products.filter(p=>(cat==='all'||p.cat===cat)&&p.name.toLowerCase().includes(q));
+ document.getElementById('count').textContent=list.length+' টি পণ্য';
+ document.getElementById('products').innerHTML=list.length?list.map(p=>`
+ <article class="card"><div class="pic">${p.emoji}</div><div class="info">
+ <div class="name">${p.name}</div><div class="price">৳${p.price.toLocaleString('en-BD')}</div>
+ <button class="add" onclick="add(${p.id})">🛒 কার্টে যোগ করুন</button></div></article>`).join(''):'<div class="empty">কোনো পণ্য পাওয়া যায়নি</div>';
+}
+function add(id){const p=products.find(x=>x.id===id);cart.push(p);updateBadge();alert('পণ্যটি কার্টে যোগ হয়েছে')}
+function updateBadge(){document.getElementById('badge').textContent=cart.length}
+function openCart(){
+ document.getElementById('drawer').style.display='block';
+ const el=document.getElementById('cart');
+ if(!cart.length){el.innerHTML='<div class="empty">কার্ট খালি</div>';return}
+ const total=cart.reduce((s,p)=>s+p.price,0);
+ el.innerHTML=cart.map((p,i)=>`<div class="row"><span>${i+1}. ${p.name}</span><b>৳${p.price.toLocaleString('en-BD')}</b></div>`).join('')+
+ `<div class="row"><b>মোট</b><b>৳${total.toLocaleString('en-BD')}</b></div>`;
+}
+function closeCart(){document.getElementById('drawer').style.display='none'}
+function orderWhatsApp(){
+ if(!cart.length){alert('আগে একটি পণ্য কার্টে যোগ করুন');return}
+ const total=cart.reduce((s,p)=>s+p.price,0);
+ const text='AS Mega Mall Order%0A'+cart.map((p,i)=>`${i+1}. ${p.name} - ৳${p.price}`).join('%0A')+`%0Aমোট: ৳${total}`;
+ location.href='https://wa.me/8801970861014?text='+text;
+}
+render();
+</script>
+</body>
+</html>
